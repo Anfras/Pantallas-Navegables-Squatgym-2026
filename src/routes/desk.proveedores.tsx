@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { registrarAuditoria } from "@/utils/audit";
 
 export const Route = createFileRoute("/desk/proveedores")({
   head: () => ({
@@ -64,10 +66,15 @@ function PagoProveedoresPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!proveedor || !factura || !fecha || !medio) {
+      toast.error("Completá los datos obligatorios del comprobante");
+      return;
+    }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1400));
     setLoading(false);
     registrarAuditoria("Lucas (Encargado)", `Pago a proveedor: ${proveedor} ($${total})`, "Proveedores");
+    toast.success("Pago autorizado correctamente");
     setSuccess(true);
   };
 

@@ -29,7 +29,7 @@ export const Route = createFileRoute("/admin/audit/$userId")({
         <h1 className="text-2xl font-bold text-foreground">Usuario no encontrado</h1>
         <p className="mt-2 text-muted-foreground">El usuario solicitado no existe.</p>
         <Link
-          to="/usuarios"
+          to="/admin/users"
           className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
         >
           <ArrowLeft className="h-4 w-4" /> Volver a usuarios
@@ -51,7 +51,7 @@ function AuditoriaUsuarioPage() {
         <main className="mx-auto max-w-3xl px-6 py-20 text-center">
           <h1 className="text-2xl font-bold text-foreground">Usuario no encontrado</h1>
           <Link
-            to="/usuarios"
+            to="/admin/users"
             className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
           >
             <ArrowLeft className="h-4 w-4" /> Volver a usuarios
@@ -70,7 +70,7 @@ function AuditoriaUsuarioPage() {
 
       <main className="mx-auto max-w-6xl px-6 py-10">
         <Link
-          to="/usuarios"
+          to="/admin/users"
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" /> Volver a Gestión de Roles y Auditoría

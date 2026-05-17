@@ -363,7 +363,7 @@ function UsuariosPage() {
                       <TableRow key={u.id} className="border-border">
                         <TableCell className="px-4 py-3 font-medium">
                           <Link
-                            to="/usuarios/$userId/auditoria"
+                            to="/admin/audit/$userId"
                             params={{ userId: u.id }}
                             className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
                             title="Ver auditoría individual"
@@ -391,7 +391,7 @@ function UsuariosPage() {
                         <TableCell className="px-4 py-3 text-right">
                           <div className="inline-flex gap-2">
                             <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 rounded-lg">
-                              <Link to="/usuarios/$userId/auditoria" params={{ userId: u.id }}>
+                              <Link to="/admin/audit/$userId" params={{ userId: u.id }}>
                                 <History className="h-3.5 w-3.5" /> Ver auditoría
                               </Link>
                             </Button>

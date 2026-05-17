@@ -193,7 +193,7 @@ function CobrarCuotaPage() {
     toast.success("Pago registrado. Recibo emitido.", {
       description: `${nombre} · ${formatoARS(montoFinal)} · ${concepto}`,
     });
-    navigate({ to: "/recepcion" });
+    navigate({ to: "/desk" });
   };
 
   return (
@@ -204,7 +204,7 @@ function CobrarCuotaPage() {
       <main className="mx-auto max-w-5xl px-6 py-10">
         {/* Volver */}
         <Link
-          to="/recepcion"
+          to="/desk"
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" /> Volver a Recepción
@@ -420,7 +420,7 @@ function CobrarCuotaPage() {
                 <Button
                   variant="outline"
                   disabled={procesando}
-                  onClick={() => navigate({ to: "/recepcion" })}
+                  onClick={() => navigate({ to: "/desk" })}
                   className="h-11 w-full rounded-xl text-sm font-semibold"
                 >
                   Cancelar

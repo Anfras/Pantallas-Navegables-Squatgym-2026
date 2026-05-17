@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
 import { ArrowLeft, AlertTriangle, UserCircle2, Printer } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -63,6 +65,16 @@ function AuditoriaUsuarioPage() {
 
   const movimientos = AUDITORIA.filter((a) => a.usuarioId === usuario.id);
 
+  const [filtroModulo, setFiltroModulo] = useState("Todos");
+  const modulosDisponibles = useMemo(() => {
+    const mods = new Set(movimientos.map((l) => l.modulo));
+    return Array.from(mods).sort();
+  }, [movimientos]);
+
+  const movimientosFiltrados = useMemo(() => {
+    if (filtroModulo === "Todos") return movimientos;
+    return movimientos.filter((l) => l.modulo === filtroModulo);
+  }, [movimientos, filtroModulo]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,7 +106,7 @@ function AuditoriaUsuarioPage() {
             </div>
           </div>
           <div className="rounded-xl border border-border bg-background px-5 py-3 text-center">
-            <p className="text-2xl font-bold tabular-nums text-foreground">{movimientos.length}</p>
+            <p className="text-2xl font-bold tabular-nums text-foreground">{movimientosFiltrados.length}</p>
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Movimientos</p>
           </div>
         </div>
@@ -114,15 +126,28 @@ function AuditoriaUsuarioPage() {
                 </p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.print()}
-              className="h-9 shrink-0 gap-1.5 rounded-lg print:hidden"
-            >
-              <Printer className="h-4 w-4" />
-              Imprimir informe de Auditoría
-            </Button>
+            <div className="flex items-center gap-3">
+              <Select value={filtroModulo} onValueChange={setFiltroModulo}>
+                <SelectTrigger className="h-9 w-40 rounded-lg">
+                  <SelectValue placeholder="Módulo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Todos">Todos los módulos</SelectItem>
+                  {modulosDisponibles.map(m => (
+                    <SelectItem key={m} value={m}>{m}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.print()}
+                className="h-9 shrink-0 gap-1.5 rounded-lg print:hidden"
+              >
+                <Printer className="h-4 w-4" />
+                Imprimir
+              </Button>
+            </div>
           </div>
 
           <div className="overflow-hidden rounded-xl border border-border">
@@ -135,7 +160,7 @@ function AuditoriaUsuarioPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {movimientos.map((entry) => (
+                {movimientosFiltrados.map((entry) => (
                   <TableRow key={entry.id} className="border-border">
                     <TableCell className="px-4 py-3 font-mono text-xs text-muted-foreground">
                       {entry.fecha}
@@ -150,13 +175,13 @@ function AuditoriaUsuarioPage() {
                     </TableCell>
                   </TableRow>
                 ))}
-                {movimientos.length === 0 && (
+                {movimientosFiltrados.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={3}
                       className="px-4 py-10 text-center text-sm text-muted-foreground"
                     >
-                      Este usuario aún no registra movimientos en el sistema.
+                      No hay registros de auditoría para este módulo.
                     </TableCell>
                   </TableRow>
                 )}

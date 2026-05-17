@@ -124,6 +124,17 @@ function UsuariosPage() {
     return AUDITORIA;
   });
 
+  const [filtroModulo, setFiltroModulo] = useState("Todos");
+  const modulosDisponibles = useMemo(() => {
+    const mods = new Set(logsAuditoria.map((l) => l.modulo));
+    return Array.from(mods).sort();
+  }, [logsAuditoria]);
+
+  const logsFiltrados = useMemo(() => {
+    if (filtroModulo === "Todos") return logsAuditoria;
+    return logsAuditoria.filter((l) => l.modulo === filtroModulo);
+  }, [logsAuditoria, filtroModulo]);
+
   // Permisos por rol (plantilla base)
   const [permisosPorRol, setPermisosPorRol] = useState<Record<Rol, string[]>>(
     () => ({
@@ -702,15 +713,28 @@ function UsuariosPage() {
                     </p>
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.print()}
-                  className="h-9 shrink-0 gap-1.5 rounded-lg print:hidden"
-                >
-                  <Printer className="h-4 w-4" />
-                  Imprimir informe de Auditoría
-                </Button>
+                <div className="flex items-center gap-3">
+                  <Select value={filtroModulo} onValueChange={setFiltroModulo}>
+                    <SelectTrigger className="h-9 w-40 rounded-lg">
+                      <SelectValue placeholder="Módulo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Todos">Todos los módulos</SelectItem>
+                      {modulosDisponibles.map(m => (
+                        <SelectItem key={m} value={m}>{m}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.print()}
+                    className="h-9 shrink-0 gap-1.5 rounded-lg print:hidden"
+                  >
+                    <Printer className="h-4 w-4" />
+                    Imprimir
+                  </Button>
+                </div>
               </div>
 
               <div className="overflow-hidden rounded-xl border border-border">
@@ -724,7 +748,7 @@ function UsuariosPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {logsAuditoria.map((entry) => (
+                    {logsFiltrados.map((entry) => (
                       <TableRow key={entry.id} className="border-border">
                         <TableCell className="px-4 py-3 font-mono text-xs text-muted-foreground">
                           {entry.fecha}
@@ -742,6 +766,13 @@ function UsuariosPage() {
                         </TableCell>
                       </TableRow>
                     ))}
+                    {logsFiltrados.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                          No hay registros de auditoría para este módulo.
+                        </TableCell>
+                      </TableRow>
+                    )}
                   </TableBody>
                 </Table>
               </div>

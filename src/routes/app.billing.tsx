@@ -158,42 +158,7 @@ function DashboardAlumno() {
             Acá tenés el resumen de tu cuenta y tus pagos en SquatGym.
           </p>
 
-          {/* Accesos rápidos */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            {conDeuda && (
-              <Link
-                to="/app/checkout"
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90"
-              >
-                <CreditCard className="h-4 w-4" />
-                Pagar Cuota
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={() => toast.info("Ficha de Salud — declaración jurada y certificados.")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:border-primary hover:bg-accent"
-            >
-              <HeartPulse className="h-4 w-4 text-primary" />
-              Ficha de Salud
-            </button>
-            <button
-              type="button"
-              onClick={() => toast.info("Mi Asistencia — historial de clases asistidas.")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:border-primary hover:bg-accent"
-            >
-              <ClipboardList className="h-4 w-4 text-primary" />
-              Mi Asistencia
-            </button>
-            <button
-              type="button"
-              onClick={() => toast.info("Cronograma — horarios y clases habilitadas según tu plan.")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:border-primary hover:bg-accent"
-            >
-              <CalendarDays className="h-4 w-4 text-primary" />
-              Cronograma
-            </button>
-          </div>
+
         </section>
 
         {/* Banner de aviso si tiene deuda */}

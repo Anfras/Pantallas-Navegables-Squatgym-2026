@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Dumbbell, UserCircle2, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { toast } from "sonner";
 type Role = "Admin" | "Encargado de Sucursal" | "Secretaria" | "Alumno";
 
-const NAV: { to: any; label: string; roles: Role[] }[] = [
+const NAV: { to?: any; label: string; roles: Role[]; onClick?: () => void }[] = [
   { to: "/admin/socios", label: "Gestión de Socios", roles: ["Admin"] },
   { to: "/admin/users", label: "Usuarios y Seguridad", roles: ["Admin"] },
   { to: "/admin/pricing", label: "Promociones y Precios", roles: ["Admin"] },
@@ -12,7 +12,21 @@ const NAV: { to: any; label: string; roles: Role[] }[] = [
   { to: "/desk/", label: "Recepción", roles: ["Secretaria"] },
   
   { to: "/app/billing", label: "Mi Cuenta", roles: ["Alumno"] },
-  { to: "/app/checkout", label: "Pasarela de Pago", roles: ["Alumno"] },
+  { 
+    label: "Ficha de Salud", 
+    roles: ["Alumno"],
+    onClick: () => toast.info("Ficha de Salud — declaración jurada y certificados.")
+  },
+  { 
+    label: "Mi Asistencia", 
+    roles: ["Alumno"],
+    onClick: () => toast.info("Mi Asistencia — historial de clases asistidas.")
+  },
+  { 
+    label: "Cronograma", 
+    roles: ["Alumno"],
+    onClick: () => toast.info("Cronograma — horarios y clases habilitadas según tu plan.")
+  },
 
   { to: "/desk/proveedores", label: "Pago a Proveedores", roles: ["Encargado de Sucursal"] },
 ];
@@ -47,18 +61,28 @@ export function AppHeader({
 
         <nav className="hidden items-center gap-1 md:flex">
           {visibleNav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              activeProps={{
-                className:
-                  "rounded-full px-3.5 py-1.5 text-sm font-semibold bg-accent text-accent-foreground",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              {item.label}
-            </Link>
+            item.to ? (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                activeProps={{
+                  className:
+                    "rounded-full px-3.5 py-1.5 text-sm font-semibold bg-accent text-accent-foreground",
+                }}
+                activeOptions={{ exact: true }}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <button
+                key={item.label}
+                onClick={item.onClick}
+                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                {item.label}
+              </button>
+            )
           ))}
         </nav>
 

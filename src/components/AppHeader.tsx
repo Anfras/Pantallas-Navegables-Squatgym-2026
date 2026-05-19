@@ -83,6 +83,26 @@ export function AppHeader({
           </button>
         </div>
       </div>
+
+      {/* Navegación para móviles */}
+      <div className="flex overflow-x-auto border-t border-border bg-background/50 px-4 py-2 scrollbar-hide md:hidden">
+        <nav className="flex items-center gap-2">
+          {visibleNav.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              activeProps={{
+                className:
+                  "shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold bg-accent text-accent-foreground",
+              }}
+              activeOptions={{ exact: true }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }
